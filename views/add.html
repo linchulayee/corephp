@@ -1,0 +1,56 @@
+<html>
+<head>
+    <title>Add Data</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+ 
+<body>
+    <div id ='log'></div>
+    <a href="index.php">Home</a>
+    <br/><br/>
+    <h1>Add product</h1>
+    <!-- <form action="add.php" method="post" name="form1"> -->
+        <table width="25%" border="0">
+            <tr> 
+                <td>Name</td>
+                <td><input type="text" name="name"></td>
+            </tr>
+            <tr> 
+                <td>category</td>
+                <select>
+                  <option value="volvo">Volvo</option>
+                  <option value="saab">Saab</option>
+                  <option value="mercedes">Mercedes</option>
+                  <option value="audi">Audi</option>
+                </select>
+            </tr>
+            <tr> 
+                <td></td>
+                <td><input type="submit" onclick="dropDown()" name="Submit" value="Add"></td>
+            </tr>
+        </table>
+   <!-- </form> -->
+
+
+    <script>
+        function dropDown() {
+          var request = $.ajax({
+              url: "http://localhost/corePhp/category/read.php",
+               type: "GET",
+              success: function(data){
+                console.log(data);
+              }
+            });
+
+           request.done(function(msg) {
+              $("#log").html( msg );
+            });
+
+            request.fail(function(jqXHR, textStatus) {
+              alert( "Request failed: " + textStatus );
+            });
+        }  
+           
+</script>
+</body>
+</html>
