@@ -18,4 +18,13 @@ class Product{
     public function __construct($db){
         $this->conn = $db;
     }
+
+    // used for paging products
+    public function getProducts(){
+        $query = "SELECT *  FROM  product where `status`=1";
+        $stmt = $this->conn->prepare( $query );
+        $stmt->execute();
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row;
+    }
 }

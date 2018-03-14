@@ -22,7 +22,7 @@
                 </select></td>
             </tr>
             <tr> 
-                <td colspan="4" style="text-align:center; height:30px;"><input type="submit" onclick="dropDown()" style="
+                <td colspan="4" style="text-align:center; height:30px;"><input type="submit" style="
                     background: red;
                     border: 1px solid black;
                     border-radius: 3px;
@@ -36,18 +36,23 @@
 
 
     <script>
-        function dropDown() {
-          var request = $.ajax({
+        $( document ).ready(function() {
+             var request = $.ajax({
               url: "http://localhost/corePhp/category/read.php",
                type: "GET",
               success: function(data){
-                var ddcat = $("#select");
-                 $.each( data, function( key, value ) {
-                    var option = $("<option />");
-                      option.html(value.category_name);
-                      option.val(value.category_id);
+                if(data.length>0){
+                    var ddcat = $("#select");
+                    $.each( data, function( key, value ) {
+                        var option = $("<option />");
+                        option.html(value.category_name);
+                        option.val(value.category_id);
                         ddcat.append(option);
-                });
+                    });
+                }else{
+                    console.log(data);
+                }
+                
                
               }
             });
@@ -59,7 +64,8 @@
             request.fail(function(jqXHR, textStatus) {
               alert( "Request failed: " + textStatus );
             });
-        }  
+        });
+        
            
 </script>
 </body>
