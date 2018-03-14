@@ -10,23 +10,26 @@
     <br/><br/>
     <h1>Add product</h1>
     <!-- <form action="add.php" method="post" name="form1"> -->
-        <table width="25%" border="0">
+        <table>
             <tr> 
                 <td>Name</td>
                 <td><input type="text" name="name"></td>
             </tr>
             <tr> 
                 <td>category</td>
-                <select>
-                  <option value="volvo">Volvo</option>
-                  <option value="saab">Saab</option>
-                  <option value="mercedes">Mercedes</option>
-                  <option value="audi">Audi</option>
-                </select>
+                <td><select id="select" style="width:100%;">
+                  <option value="select">select</option>
+                </select></td>
             </tr>
             <tr> 
-                <td></td>
-                <td><input type="submit" onclick="dropDown()" name="Submit" value="Add"></td>
+                <td colspan="4" style="text-align:center; height:30px;"><input type="submit" onclick="dropDown()" style="
+                    background: red;
+                    border: 1px solid black;
+                    border-radius: 3px;
+                    color: #fff;
+                    width: 20%;
+                    padding: 3px;
+                " name="Submit" value="Add"></td>
             </tr>
         </table>
    <!-- </form> -->
@@ -38,7 +41,14 @@
               url: "http://localhost/corePhp/category/read.php",
                type: "GET",
               success: function(data){
-                console.log(data);
+                var ddcat = $("#select");
+                 $.each( data, function( key, value ) {
+                    var option = $("<option />");
+                      option.html(value.category_name);
+                      option.val(value.category_id);
+                        ddcat.append(option);
+                });
+               
               }
             });
 

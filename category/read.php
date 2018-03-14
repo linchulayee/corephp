@@ -23,7 +23,6 @@ if($num>0){
  
     // products array
     $cat_arr=array();
-    $cat_arr["records"]=array();
  
     // retrieve our table contents
     // fetch() is faster than fetchAll()
@@ -39,7 +38,7 @@ if($num>0){
             "category_name" => html_entity_decode($name)
         );
  
-        array_push($cat_arr["records"], $cat_item);
+        array_push($cat_arr, $cat_item);
     }
  
     echo json_encode($cat_arr);
