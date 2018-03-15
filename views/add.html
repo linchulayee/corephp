@@ -13,11 +13,11 @@
         <table>
             <tr> 
                 <td>Name</td>
-                <td><input type="text" name="name"></td>
+                <td><input type="text" id="txt_name"></td>
             </tr>
             <tr> 
                 <td>category</td>
-                <td><select id="select" style="width:100%;">
+                <td><select class="select" style="width:100%;">
                   <option value="select">select</option>
                 </select></td>
             </tr>
@@ -29,7 +29,7 @@
                     color: #fff;
                     width: 20%;
                     padding: 3px;
-                " name="Submit" value="Add"></td>
+                " name="Submit" onclick="addProduct()" value="Add"></td>
             </tr>
         </table>
    <!-- </form> -->
@@ -42,7 +42,7 @@
                type: "GET",
               success: function(data){
                 if(data.length>0){
-                    var ddcat = $("#select");
+                    var ddcat = $(".select");
                     $.each( data, function( key, value ) {
                         var option = $("<option />");
                         option.html(value.category_name);
@@ -64,8 +64,28 @@
             request.fail(function(jqXHR, textStatus) {
               alert( "Request failed: " + textStatus );
             });
+            
         });
-        
+        function addProduct(){
+            var dataPost = new Object();
+            dataPost.product = $('#txt_name').val();
+            dataPost.catId = $(".select option:selected").val();
+            var  post = $.ajax({
+                type: "POST",
+                url: 'http://localhost/corePhp/product/create.php',
+                data: dataPost,
+                success: function(returnData){
+                    console.log(returnData);
+                }
+            });
+            post.done(function(msg) {
+              $("#log").html( msg );
+            });
+
+            post.fail(function(jqXHR, textStatus) {
+              alert( "Request failed: " + textStatus );
+            });
+        }
            
 </script>
 </body>

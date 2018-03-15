@@ -41,10 +41,10 @@ if($num>0){
         array_push($cat_arr, $cat_item);
     }
  
-   # echo json_encode($cat_arr);
-    echo json_encode(
-        array("message" => "No category found.")
-    );
+   echo json_encode($cat_arr);
+    // echo json_encode(
+    //     array("message" => "No category found.")
+    // );
 }
  
 else{
