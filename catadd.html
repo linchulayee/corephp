@@ -1,0 +1,58 @@
+<html>
+<head>
+    <title>Add Data</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+ 
+<body>
+    <div id ='log'></div>
+    <a href="#">Home</a>
+    <br/><br/>
+    <h1>Add Catagory</h1>
+    <!-- <form action="add.php" method="post" name="form1"> -->
+        <table>
+            <tr> 
+                <td>Name</td>
+                <td><input type="text" id="txt_name"></td>
+            </tr>
+            <tr> 
+                <td colspan="4" style="text-align:center; height:30px;"><input type="submit" style="
+                    background: red;
+                    border: 1px solid black;
+                    border-radius: 3px;
+                    color: #fff;
+                    width: 20%;
+                    padding: 3px;
+                " name="Submit" onclick="addCat()" value="Add"></td>
+            </tr>
+        </table>
+   <!-- </form> -->
+
+
+    <script>
+        $( document ).ready(function() {
+            
+        });
+        function addCat(){
+            var dataPost = new Object();
+            dataPost.cat_name = $('#txt_name').val();
+            var  post = $.ajax({
+                type: "POST",
+                url: 'http://localhost/corephp-master/category/create.php',
+                data: dataPost,
+                success: function(returnData){
+                    console.log(returnData);
+                }
+            });
+            post.done(function(msg) {
+              $("#log").html( msg );
+            });
+
+            post.fail(function(jqXHR, textStatus) {
+              alert( "Request failed: " + textStatus );
+            });
+        }
+           
+</script>
+</body>
+</html>
