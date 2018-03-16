@@ -1,57 +1,60 @@
-<?php
-class Product{
- 
-    // database connection and table name
-    private $conn;
-    private $table_name = "product";
- 
-    // object properties
-    public $id;
-    public $name;
-    public $status =1;
-    public $category_id;
- 
-    // constructor with $db as database connection
-    public function __construct($db){
-        $this->conn = $db;
-    }
 
-    // used for paging products
-    public function getProducts(){
-        $query = "SELECT p.id as pro_id, p.cat_id,p.product_name,c.name as cat_name FROM `product` p inner join `catagory` c on c.id = p.cat_id";
-        $stmt = $this->conn->prepare( $query );
-        // execute query
-        $stmt->execute();
-     
-        return $stmt;
-    }
-    // create product
-    public function create($productName,$catID){
-     
-        // query to insert record
-        $query = "INSERT INTO
-                    " . $this->table_name . "
-                SET
-                    product_name=:name, status=:status, cat_id=:category_id ";
-     
-        // prepare query
-        $stmt = $this->conn->prepare($query);
-     
-        // sanitize
-        $this->name=htmlspecialchars(strip_tags($productName));
-        $this->category_id=htmlspecialchars(strip_tags($catID));
-     
-        // bind values
-        $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":status", $this->status);
-        $stmt->bindParam(":category_id", $this->category_id);
-     
-        // execute query
-        if($stmt->execute()){
-            return true;
-        }
-     
-        return false;
-         
-    }
-}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.5/css/select.dataTables.min.css"> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+
+<script type="text/javascript">
+        $(document).ready(function() {
+            // $('#example').DataTable( {
+            //     select: {
+            //         style: 'os',
+            //         items: 'cell'
+            //     }
+            // } );
+            var  post = $.ajax({
+                type: "GET",
+                dataType: 'json',
+                url: 'http://localhost/corephp-master/product/read.php',
+                success: function(returnData){
+                    var output;
+                    for(var data in returnData) {
+                       output += '<tr><td>'+returnData[data].prodcut_name+'</td><td>'+returnData[data].cat_name+'</td><td><a href="">Delete</a></td></tr>';
+                    }
+                    console.log(returnData);
+                    $("#cat_table").append(output);
+                }
+            });
+            post.done(function(msg) {
+              $("#log").html( msg );
+            });
+
+            post.fail(function(jqXHR, textStatus) {
+              alert( "Request failed: " + textStatus );
+            });
+        } );
+
+            
+            </script>
+</head>
+<body>
+   <table id="example" class="display" style="width:80%">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Catagory</th>
+                <th>DELETE</th>
+               
+            </tr>
+        </thead>
+        <tbody id="cat_table" style="text-align: center;">
+        </tbody>
+        
+    </table> 
+</body>
+</html>
+    
